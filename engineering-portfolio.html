@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engineering Portfolio</title>
+  <style>
+    :root {
+      --ink: #172026;
+      --muted: #5b6872;
+      --line: #d7dde2;
+      --paper: #f7f4ee;
+      --panel: #ffffff;
+      --accent: #1f6f8b;
+      --accent-dark: #174d60;
+      --accent-soft: #e8f2f5;
+      --header: #172026;
+      --header-line: #2d3a42;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    .portfolio {
+      display: grid;
+      grid-template-columns: minmax(280px, 38vw) 1fr;
+      min-height: 100vh;
+    }
+
+    .photo-panel {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: var(--header);
+      overflow: hidden;
+    }
+
+    .photo-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 0% center;
+      display: block;
+      transition: object-position 80ms linear;
+    }
+
+    .photo-panel img.horizontal-pan {
+      object-position: var(--photo-x, 0%) center;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+      color: #eef4f6;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .photo-placeholder span {
+      max-width: 260px;
+      line-height: 1.5;
+      color: #d9e3e7;
+    }
+
+    .content {
+      display: flex;
+      align-items: stretch;
+      padding: 0 clamp(28px, 7vw, 104px);
+    }
+
+    .intro {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .intro-hero {
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .intro-bio {
+      min-height: 72vh;
+      padding: 32px 0 96px;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--accent-dark);
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .title {
+      margin: 24px 0 0;
+      color: var(--accent);
+      font-size: clamp(1.2rem, 2vw, 1.7rem);
+      font-weight: 700;
+    }
+
+    .bio {
+      margin: 28px 0 0;
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.75;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 46px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+    }
+
+    .detail {
+      min-width: 0;
+    }
+
+    .detail strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+      font-size: 0.9rem;
+    }
+
+    .detail span {
+      color: var(--muted);
+      font-size: 0.96rem;
+      line-height: 1.45;
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .skill-card {
+      min-width: 0;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 14px 36px rgba(23, 32, 38, 0.08);
+    }
+
+    .skill-card h3 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 1.35rem;
+      line-height: 1.25;
+    }
+
+    .skill-card p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .skill-list span {
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 38px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      color: var(--accent-dark);
+      background: transparent;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .button.primary {
+      color: #ffffff;
+      background: var(--accent);
+    }
+    html {
+  scroll-behavior: smooth;
+}
+
+.sticky-menu {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--header);
+  border-bottom: 1px solid var(--header-line);
+}
+
+.sticky-menu a {
+  padding: 10px 14px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.sticky-menu a:hover {
+  background: var(--accent);
+}
+
+    .resume-button {
+      position: fixed;
+      top: 10px;
+      right: 18px;
+      z-index: 1001;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid #ffffff;
+      border-radius: 6px;
+      color: #172026;
+      background: #ffffff;
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(23, 32, 38, 0.18);
+    }
+
+    .resume-button:hover {
+      color: #ffffff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .section {
+      padding: 72px clamp(24px, 6vw, 96px);
+      background: var(--panel);
+      border-top: 1px solid var(--line);
+    }
+
+    .section-header {
+      max-width: 900px;
+      margin: 0 auto 34px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-header p {
+      max-width: 680px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 14px 36px rgba(23, 32, 38, 0.08);
+    }
+
+    .project-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      background: #d7dde2;
+    }
+
+    .project-carousel {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #d7dde2;
+    }
+
+    .project-carousel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      z-index: 2;
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 999px;
+      color: #ffffff;
+      background: rgba(23, 32, 38, 0.76);
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+
+    .carousel-button:hover {
+      background: var(--accent);
+    }
+
+    .carousel-button.prev {
+      left: 12px;
+    }
+
+    .carousel-button.next {
+      right: 12px;
+    }
+
+    .carousel-counter {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      background: rgba(255, 255, 255, 0.86);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .project-card-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 22px;
+    }
+
+    .project-card h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      line-height: 1.25;
+    }
+
+    .project-meta {
+      display: grid;
+      gap: 6px;
+      margin: 14px 0 0;
+      color: var(--accent-dark);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .project-description {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    .description-extra[hidden] {
+      display: none;
+    }
+
+    .see-more-button {
+      border: 0;
+      padding: 0;
+      color: var(--accent-dark);
+      background: transparent;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .project-specs {
+      margin-top: 18px;
+      padding: 16px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 6px;
+    }
+
+    .project-specs strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--accent-dark);
+      font-size: 0.95rem;
+    }
+
+    .project-specs ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 22px;
+    }
+
+    .skill-tags span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .process-button {
+      margin-top: 18px;
+      min-height: 42px;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      color: #ffffff;
+      background: var(--accent);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .process-button:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+    }
+
+    .gallery-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: none;
+      background: rgba(23, 32, 38, 0.78);
+      padding: 28px;
+    }
+
+    .gallery-modal.is-open {
+      display: block;
+    }
+
+    .gallery-panel {
+      position: relative;
+      height: 100%;
+      max-width: 1160px;
+      margin: 0 auto;
+      overflow-y: auto;
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    .gallery-header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px clamp(20px, 4vw, 42px);
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .gallery-header h3 {
+      margin: 0;
+      font-size: clamp(1.45rem, 3vw, 2.25rem);
+      line-height: 1.15;
+    }
+
+    .gallery-close {
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      background: #ffffff;
+      font-size: 1.35rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .gallery-content {
+      padding: 30px clamp(20px, 4vw, 42px) 42px;
+    } 
+
+    .gallery-resource-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      margin-bottom: 26px;
+      padding: 0 16px;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      color: #ffffff;
+      background: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .gallery-resource-link:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+    }
+
+    .gallery-section + .gallery-section {
+      margin-top: 42px;
+      padding-top: 34px;
+      border-top: 1px solid var(--line);
+    }
+
+    .gallery-section h4 {
+      margin: 0 0 18px;
+      color: var(--accent-dark);
+      font-size: 1.2rem;
+    }
+
+    .gallery-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .gallery-section-head h4 {
+      margin: 0;
+    }
+
+    .gallery-scroll-controls {
+      display: flex;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .gallery-scroll-button {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--accent-dark);
+      background: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .gallery-scroll-button:hover {
+      color: #ffffff;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .gallery-items {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 8px;
+    }
+
+    .gallery-item {
+      flex: 0 0 calc(50% - 10px);
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      scroll-snap-align: start;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      background: #d7dde2;
+    }
+
+    .gallery-item figcaption {
+      padding: 14px 16px 16px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+
+    .experience-icons {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+      align-items: start;
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    .experience-popover {
+      position: relative;
+      min-width: 0;
+      text-align: center;
+    }
+
+    .experience-popover summary {
+      display: inline-grid;
+      place-items: center;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 6px solid var(--job-color);
+      border-radius: 50%;
+      background: var(--accent-soft);
+      box-shadow: 0 16px 36px rgba(23, 32, 38, 0.16);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .experience-popover summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .experience-popover summary:focus-visible {
+      outline: 3px solid rgba(31, 111, 139, 0.35);
+      outline-offset: 6px;
+    }
+
+    .experience-popover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .experience-popover img.logo-image {
+      object-fit: cover;
+      padding: 0;
+      background: #ffffff;
+      transform: scale(var(--logo-zoom, 1.08));
+      transform-origin: var(--logo-origin, center center);
+    }
+
+    .experience-popover .icon-placeholder {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      padding: 18px;
+      color: var(--accent-dark);
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .experience-bubble {
+      position: relative;
+      margin-top: 22px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-top: 6px solid var(--job-color);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 18px 42px rgba(23, 32, 38, 0.14);
+      text-align: left;
+    }
+
+    .experience-bubble::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -14px;
+      width: 18px;
+      height: 18px;
+      background: #ffffff;
+      border-left: 1px solid var(--line);
+      border-top: 1px solid var(--line);
+      transform: translateX(-50%) rotate(45deg);
+    }
+
+    .experience-popover:not([open]) .experience-bubble {
+      display: none;
+    }
+
+    .experience-bubble h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      line-height: 1.3;
+    }
+
+    .experience-dates {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent-dark);
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .experience-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .experience-skills span {
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: var(--accent-dark);
+      background: var(--accent-soft);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .read-more {
+      margin-top: 18px;
+      color: var(--muted);
+    }
+
+    .read-more summary {
+      display: inline-flex;
+      width: auto;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      color: var(--accent-dark);
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .read-more p {
+      margin: 12px 0 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .contact-links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      min-width: 0;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.35fr);
+      gap: 30px;
+      align-items: stretch;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .headshot-box {
+      display: grid;
+      place-items: center;
+      min-height: 360px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      box-shadow: 0 14px 36px rgba(23, 32, 38, 0.08);
+    }
+
+    .headshot-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .headshot-placeholder {
+      padding: 28px;
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .contact-link {
+      display: block;
+      min-width: 0;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--ink);
+      text-decoration: none;
+      box-shadow: 0 14px 36px rgba(23, 32, 38, 0.08);
+    }
+
+    .contact-link strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent-dark);
+      font-size: 1.1rem;
+    }
+
+    .contact-link span {
+      color: var(--muted);
+      font-size: 0.96rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 760px) {
+      .portfolio {
+        grid-template-columns: 1fr;
+      }
+
+      .photo-panel {
+        position: relative;
+        height: 42vh;
+        min-height: 320px;
+      }
+
+      .content {
+        align-items: flex-start;
+        padding: 40px 24px 56px;
+      }
+
+      .intro-hero {
+        min-height: 64vh;
+      }
+
+      .intro-bio {
+        min-height: auto;
+        padding-bottom: 24px;
+      }
+
+      .details {
+        grid-template-columns: 1fr;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-modal {
+        padding: 14px;
+      }
+
+      .gallery-items {
+        gap: 16px;
+      }
+
+      .gallery-item {
+        flex-basis: 100%;
+      }
+
+      .experience-icons {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-links {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .headshot-box {
+        min-height: 320px;
+      }
+
+      .resume-button {
+        top: 62px;
+        right: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="sticky-menu">
+    <a href="#about-me">About me</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact-me">Contact me</a>
+  </nav>
+
+  <a class="resume-button" href="Ferguson, Jenn - Resume.pdf" target="_blank" rel="noopener" aria-label="View resume">View Resume</a>
+
+  <main class="portfolio">
+    <aside class="photo-panel" aria-label="Portrait">
+      <!-- Put your image file in the outputs folder and update the src filename below. -->
+      <img
+        class="horizontal-pan"
+        id="intro-photo"
+        src="CGI factory.png"
+        alt="CGI Factory with Blue Components"
+      />
+    </aside>
+
+    <section class="content" id="about-me">
+      <div class="intro">
+        <div class="intro-hero">
+          <div>
+            <p class="eyebrow">Engineering Portfolio</p>
+            <h1>Hi, I'm Jenn Ferguson</h1>
+            <p class="title">I'm a senior chemical engineering student with hands-on
+              experience in CAD design, prototyping, and manufacturing, driven by a 
+              passion for building practical solutions and continuously pushing 
+              beyond expectations.
+            </p>
+            <p class="title">This portfolio is my first experiment with WebUI design and development, and I'm excited to share my work in a more dynamic and interactive way.
+            </p>
+          </div>
+        </div>
+
+        <div class="intro-bio">
+          <p class="bio">
+            Applied experience includes designing a habitable lunar rover in 
+            SolidWorks at NASA Glenn to developing AutoCAD layouts and technical 
+            drawings at GE Appliances, building a strong foundation in 
+            real-world engineering design.
+          </p>
+          <p class="bio">
+            I am most energized by challenges that bridge manufacturing and 
+            improvement, from diagnosing contamination issues to resolving test 
+            inconsistencies and optimizing design performance.
+          </p>
+          <p class="bio">
+            I find the most fulfullment in delivering improvements people 
+            can actually feel, whether it's a label and tracking system that cut 
+            maintenance time and cost by 84% and 74% respectively, developing 
+            a award winning prototype, or turning complex specifications into
+            clear, user-friendly products. 
+          </p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <section class="section" id="projects">
+    <div class="section-header">
+      <h2>Projects</h2>
+      <p>
+        Each of these cards highlights an engineering project that I have 
+        completed, with a focus on the work I did, the skills I applied, and the impact of the project.
+      </p>
+    </div>
+
+    <div class="project-grid">
+      <article class="project-card">
+        <div class="project-carousel" aria-label="LUMOS rover project image carousel">
+          <button class="carousel-button prev" type="button" aria-label="Previous LUMOS project image">&#8249;</button>
+          <img
+            src="LUMOS Final drawing.jpg"
+            alt="LUMOS final SolidWorks drawing"
+            data-images="LUMOS Final drawing.jpg|LUMOS proto side view.jpg|LUMOS proto upper interior.jpg"
+            data-alts="LUMOS final SolidWorks drawing|LUMOS rover prototype side view|LUMOS rover prototype upper interior"
+          />
+          <button class="carousel-button next" type="button" aria-label="Next LUMOS project image">&#8250;</button>
+          <span class="carousel-counter">1 / 3</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Habitable Lunar Rover - NASA Intern Design Challenge</h3>
+          <div class="project-meta">
+            <span>Completed: April 2025</span>
+            <span>Location: NASA Glenn Research Center</span>
+            <span>Role: Team Lead, CAD Designer, Prototype Fabricator</span>
+          </div>
+          <p class="project-description">
+            As team lead on this 6-week design challenge, I drove the project
+            from concept to completion; originating the original idea, coordinating 
+            team meetings and communications, and owning the full SolidWorks
+            <span class="description-extra" hidden> design
+              of a habitable lunar rover built to meet exact design specifications. 
+              I also fabricated the physical prototype and played a central role in 
+              crafting and delivering the final presentation.</span>
+            <button class="see-more-button" type="button" aria-expanded="false">See more</button>
+          </p>
+          <div class="project-specs">
+            <strong>Specs</strong>
+            <ul>
+              <li>Create a scaled model of a "camper like" habitat for the lunar environment.</li>
+              <li>Allows for EVA performance, lunar sample testing, and 7 days of independent living.</li>
+              <li>Must fit the payload volume, can be pulled by LTV, and docks to a habitat.</li>
+              <li>Included space suits with suit ports (2), beds (2), food & water (7 days), 
+                life support, testing equipment, sample storage, power for camper and LTV, and a table.</li>
+            </ul>
+          </div>
+          <p class="awards-recognitions">
+            Awards & Recognitions: Best Project Design, First Place Overall
+          </p>
+          <div class="skill-tags" aria-label="Applied skills">
+            <span>CAD Design</span>
+            <span>Project Management</span>
+            <span>SolidWorks</span>
+            <span>Prototyping</span>
+            <span>Analytical Research</span>
+          </div>
+          <button class="process-button" type="button" data-gallery-target="lumos-gallery">View Process Gallery</button>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-carousel" aria-label="GE Appliances project image carousel">
+          <button class="carousel-button prev" type="button" aria-label="Previous GE project image">&#8249;</button>
+          <img
+            src="GE Ductwork schem.jpg"
+            alt="Ductwork schematic"
+            data-images="GE Ductwork schem.jpg|GE white hvac label.jpg|GE spreadsheet.jpg"
+            data-alts="Ductwork schematic|GE white hvac label|GE project spreadsheet"
+          />
+          <button class="carousel-button next" type="button" aria-label="Next GE project image">&#8250;</button>
+          <span class="carousel-counter">1 / 3</span>
+        </div>
+        <div class="project-card-body">
+          <h3>HVAC Inventory & Maintenance Optimization - GE Appliances</h3>
+          <div class="project-meta">
+            <span>Completed: December 2025</span>
+            <span>Location: GE Appliances, A Haier Company</span>
+          </div>
+          <p class="project-description">
+            Learned AutoCAD and technical drawing interpretation to audit and
+            redesign HVAC inventory and maintenance documentation. Created 
+            updated, color-coded technical drawings
+            <span class="description-extra" hidden> fact-checked against 
+              physical systems, streamlining the maintenance process and improving
+              accuracy. The redesigned system resulted in an 84% reduction in 
+              maintenance time and a 74% reduction in related costs.</span>
+            <button class="see-more-button" type="button" aria-expanded="false">See more</button>
+          </p>
+          <div class="project-specs">
+            <strong>Specs</strong>
+            <ul>
+              <li>Update verified physical system data.</li>
+              <li>Create a label system to track refrigerant charges.</li>
+              <li>Follow EHS standards for documentation and labeling.</li>
+            </ul>
+          </div>
+          <p class="awards-recognitions">
+            Awards & Recognitions: Most Impactful Project at Co-Op Report Out Event
+          </p>
+          <div class="skill-tags" aria-label="Applied skills">
+            <span>AutoCAD</span>
+            <span>Technical Drawing & Interpretation</span>
+            <span>Independent Learning</span>
+            <span>Attention to Detail</span>
+            <span>Process Optimization</span>
+          </div>
+          <button class="process-button" type="button" data-gallery-target="ge-gallery">View Process Gallery</button>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-carousel" aria-label="CELERE drop rig project image carousel">
+          <button class="carousel-button prev" type="button" aria-label="Previous CELERE project image">&#8249;</button>
+          <img
+            src="CELERE Design 3.JPG"
+            alt="CELERE SolidWorks design"
+            data-images="CELERE Design 3.JPG|CELERE proto front.jpg|CELERE top.jpg"
+            data-alts="CELERE SolidWorks design|CELERE prototype front view|CELERE prototype top view"
+          />
+          <button class="carousel-button next" type="button" aria-label="Next CELERE project image">&#8250;</button>
+          <span class="carousel-counter">1 / 3</span>
+        </div>
+        <div class="project-card-body">
+          <h3>Prototype Drop Rig Design - NASA CELERE Project</h3>
+          <div class="project-meta">
+            <span>Completed: May 2025</span>
+            <span>Location: NASA Glenn Research Center</span>
+          </div>
+          <p class="project-description">
+           Designed and built two protoype drop rigs and six controlled test cells 
+            using SolidWorks and laser cutting, translating research-based design 
+            constraints into physical hardware for testing.
+            <span class="description-extra" hidden> Delivered full assembled, 
+              ready rigs for experimental trials.</span>
+            <button class="see-more-button" type="button" aria-expanded="false">See more</button>
+          </p>
+          <div class="project-specs">
+            <strong>Specs</strong>
+            <ul>
+              <li>Create a rig that will withstand the impact of a 8 story drop.</li>
+              <li>Contain the viscous oil at the base of the cell.</li>
+              <li>Make the rig portable and easy to replicate.</li>
+            </ul>
+          </div>
+          <div class="skill-tags" aria-label="Applied skills">
+            <span>SolidWorks</span>
+            <span>Protoype Development</span>
+            <span>Laser Cutting</span>
+            <span>Iterative Design</span>
+          </div>
+          <button class="process-button" type="button" data-gallery-target="celere-gallery">View Process Gallery</button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="gallery-modal" id="lumos-gallery" aria-hidden="true">
+    <div class="gallery-panel" role="dialog" aria-modal="true" aria-labelledby="lumos-gallery-title">
+      <div class="gallery-header">
+        <h3 id="lumos-gallery-title">Habitable Lunar Rover Process Gallery</h3>
+        <button class="gallery-close" type="button" aria-label="Close gallery">&times;</button>
+      </div>
+
+      <div class="gallery-content">
+        <section class="gallery-section">
+          <h4>Research and Design</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="LUMOS paper camper design.jpg" alt="Initial rover concept starting point" />
+              <figcaption>Initial design direction and starting concept for the rover. The idea was based on a covered wagon design.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS paper drawing top view.jpg" alt="Paper drawing top view of rover design" />
+              <figcaption>Early top-view sketch used to plan layout, proportions, and core design features.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS scale doc.jpg" alt="LUMOS prototype wall detail" />
+              <figcaption>Ideal scale up for our model. We had to stay within 19 inches in length.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS starting point.jpg" alt="LUMOS prototype wall detail" />
+              <figcaption>The initial idea for the tire mechanism in SolidWorks.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+         <section class="gallery-section">
+          <h4>SolidWorks Modeling</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="Lunar Camper Updated - Front and Back with Dimensions.jpg" alt="LUMOS camper front & back drawing" />
+              <figcaption>The decided dimensions for the front and back of the rover design.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="Lunar Camper Updated - Side with Dimensions.jpg" alt="LUMOS rover side view" />
+              <figcaption>The decided dimensions for the side view of the rover design.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="Lunar Camper Updated - Top and Bottom with Dimensions.jpg" alt="LUMOS rover top and bottom design" />
+              <figcaption>Interior detail view highlighting the habitable layout.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="gallery-section">
+          <h4>Collaboration and Prototype Construction</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="LUMOS proto wall.jpg" alt="LUMOS prototype in progress" />
+              <figcaption>Began playing around with protoype options, worked with the group to develop a realistic wall structure of duct tape and cotton balls.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS prototype 0.9.jpg" alt="LUMOS tire progress and cut boards" />
+              <figcaption>Began shaping the tires to reflect current rover tires. These were created with wire and wire mesh.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS prototype in progress.jpg" alt="LUMOS half built prototype." />
+              <figcaption>The halfway point in the prototype development process.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="gallery-section">
+          <h4>Final Prototype/Presentation</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="LUMOS final drawing.jpg" alt="LUMOS rover final drawing" />
+              <figcaption>Final full SolidWorks design view showing the rover body, wheel system, and assembled structure.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS proto side view.jpg" alt="LUMOS rover side view" />
+              <figcaption>Final side view showing the rover body, wheel system, and assembled structure.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS proto back view.jpg" alt="LUMOS rover back view" />
+              <figcaption>Final back view showing the completed exterior and rear structural details.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS proto upper interior.jpg" alt="LUMOS rover upper interior" />
+              <figcaption>Interior detail view highlighting the habitable layout and prototype construction.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS proto back inside.jpg" alt="LUMOS rover back interior" />
+              <figcaption>Interior detail view highlighting the back.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS proto front inside.jpg" alt="LUMOS rover front interior" />
+              <figcaption>Interior detail view highlighting the front.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="LUMOS proto tire.jpg" alt="LUMOS rover tire detail" />
+              <figcaption>Wheel detail showing how the rover mobility concept was represented in the prototype.</figcaption>
+            </figure>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-modal" id="ge-gallery" aria-hidden="true">
+    <div class="gallery-panel" role="dialog" aria-modal="true" aria-labelledby="ge-gallery-title">
+      <div class="gallery-header">
+        <h3 id="ge-gallery-title">GE HVAC Optimization Process Gallery</h3>
+        <button class="gallery-close" type="button" aria-label="Close gallery">&times;</button>
+      </div>
+      <div class="gallery-content">
+        <a class="gallery-resource-link" href="JF - F25 Co-op Report Out Trifold.pdf" target="_blank" rel="noopener">
+          Report out trifold
+        </a>
+        
+        <section class="gallery-section">
+          <h4>Research and Design</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="GE sticker trials.jfif" alt="GE sticker trials" />
+              <figcaption>The planning page for the labels that would be on the HVAC units.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="GE building over.jfif" alt="GE building overview" />
+              <figcaption>The first drawn schematic to assist in unit location.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="GE fan room.jfif" alt="GE fan room drawn schematic" />
+              <figcaption>Rough drawn fan room schematic for referencing..</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="GE original ductwork schematic.jpg" alt="GE original ductwork schematic" />
+              <figcaption>The last updated ductwork schematic from the 1960's.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="gallery-section">
+          <h4>Layout and Documentation</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="GE hvac slideshow.jpg" alt="GE HVAC slideshow material" />
+              <figcaption>A slide from the comprehensive HVAC slideshow I created.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="GE spreadsheet.jpg" alt="GE spreadsheet" />
+              <figcaption>Spreadsheet system used to organize HVAC information and support faster maintenance workflows.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="gallery-section">
+          <h4>Final Drawings/Product</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="GE co op report out.jpg" alt="GE co-op report out display" />
+              <figcaption>Final report-out display summarizing impact, results, and project outcomes.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="GE Ductwork schem.jpg" alt="GE HVAC ductwork schematic" />
+              <figcaption>Final ductwork schematic example updated to reflect the current layout.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="GE area map schem.jpg" alt="HVAC area map example" />
+              <figcaption>Final ductwork area for quick reference on HVAC system region.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="GE fan room schem.jpg" alt="HVAC fan room schematic" />
+              <figcaption>Final fan room schematic for quick reference on HVAC system region.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="GE white hvac label.jpg" alt="Final HVAC label system example" />
+              <figcaption>Final label example from the documentation system applied to rooftop units.</figcaption>
+            </figure>
+            
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-modal" id="celere-gallery" aria-hidden="true">
+    <div class="gallery-panel" role="dialog" aria-modal="true" aria-labelledby="celere-gallery-title">
+      <div class="gallery-header">
+        <h3 id="celere-gallery-title">NASA CELERE Process Gallery</h3>
+        <button class="gallery-close" type="button" aria-label="Close gallery">&times;</button>
+      </div>
+      <div class="gallery-content">
+        <section class="gallery-section">
+          <h4>Research and Design</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="CELERE original rig.jpg" alt="Original CELERE rig" />
+              <figcaption>Original rig reference used to understand constraints before redesigning the prototype.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="CELERE ss of notebook.jpg" alt="CELERE rig paper drawing" />
+              <figcaption>Initial paper sketch used to plan the design and layout of the new prototype.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="CELERE under box.jpg" alt="CELERE box dimensions" />
+              <figcaption>Couldn't find a leak-proof box to fit our parameters, decided to have a peer resin print one instead.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="gallery-section">
+          <h4>Collaboration and Iteration</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="CELERE Iteration 2.jpg" alt="CELERE iteration 1" />
+              <figcaption>1st iteration; was all one piece that relied on posts at the bottom to suspend it.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="CELERE Iteration 3.jpg" alt="CELERE Iteration 2" />
+              <figcaption>2nd iteration; switching to a tension based design and corrected the top panel.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="CELERE Iteration 4.jpg" alt="CELERE iteration 3" />
+              <figcaption>3rd iteration; incorporating feedback and refining the tension-based design.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="gallery-section">
+          <h4>Final Drawing and Initial Prototyping</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="CELERE Design 3.JPG" alt="CELERE final engineering drawing" />
+              <figcaption>The final rig for the CELERE project.</figcaption>
+            </figure>
+             <figure class="gallery-item">
+              <img src="CELERE Cell Dimensions and Examples.JPG" alt="CELERE sample cells" />
+              <figcaption>Sample cells I created to be used for testing.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="CELERE laser cutting.jpg" alt="CELERE laser cutting process" />
+              <figcaption>Fabrication stage using laser cutting to produce controlled test components.</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="gallery-section">
+          <h4>Final Prototype/Product</h4>
+          <div class="gallery-items">
+            <figure class="gallery-item">
+              <img src="CELERE proto front.jpg" alt="CELERE prototype front view" />
+              <figcaption>Front view of the assembled CELERE prototype rig.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="CELERE top.jpg" alt="CELERE prototype top view" />
+              <figcaption>Top view showing the finished layout and assembled test structure.</figcaption>
+            </figure>
+            <figure class="gallery-item">
+              <img src="CELERE proto box.jpg" alt="CELERE prototype underside" />
+              <figcaption>Underside view showing the completed rig structure and assembled test hardware.</figcaption>
+            </figure>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" id="experience">
+    <div class="section-header">
+      <h2>Experience</h2>
+      <p>
+        Select each circle to view the role, dates, skills, and a longer
+        description.
+      </p>
+    </div>
+
+    <div class="experience-icons" aria-label="Experience highlights">
+      <details class="experience-popover" style="--job-color: #fc3d21;">
+        <summary aria-label="Open Drop Tower Construction Intern details">
+          <img
+            class="logo-image"
+            src="NASA meatball.jpg"
+            alt="NASA meatball logo"
+            style="--logo-zoom: 1.26; --logo-origin: center 54%;"
+          />
+        </summary>
+        <div class="experience-bubble">
+          <h3>Drop Tower Construction Intern</h3>
+          <span class="experience-dates">NASA Glenn Research Center | Jan-May 2025</span>
+          <div class="experience-skills" aria-label="Skills used">
+            <span>SolidWorks</span>
+            <span>Prototype Design</span>
+            <span>Research & Collaboration</span>
+          </div>
+          <details class="read-more">
+            <summary>Read more</summary>
+            <p>
+              Supported design and prototyping work for research hardware,
+              translating project constraints into buildable SolidWorks models
+              and physical test components for experimental use.
+            </p>
+          </details>
+        </div>
+      </details>
+
+      <details class="experience-popover" style="--job-color: #005aaa;">
+        <summary aria-label="Open Environmental Health and Safety Co-Op details">
+          <img
+            class="logo-image"
+            src="GE Appliances logo.jpg"
+            alt="GE Appliances logo"
+            style="--logo-zoom: 1.08;"
+          />
+        </summary>
+        <div class="experience-bubble">
+          <h3>Environmental Health & Safety Co-Op</h3>
+          <span class="experience-dates">GE Appliances, a Haier Company | Aug-Dec 2025</span>
+          <div class="experience-skills" aria-label="Skills used">
+            <span>AutoCAD</span>
+            <span>Technical Documentation</span>
+            <span>Process Improvement</span>
+          </div>
+          <details class="read-more">
+            <summary>Read more</summary>
+            <p>
+              Created AutoCAD layouts and technical documentation to improve
+              maintenance workflows, reduce lookup time, and strengthen system
+              accuracy.
+            </p>
+          </details>
+        </div>
+      </details>
+
+      <details class="experience-popover" style="--job-color: #005aaa;">
+        <summary aria-label="Open GE Appliances engineering experience details">
+          <img
+            class="logo-image"
+            src="GE Appliances logo.jpg"
+            alt="GE Appliances logo"
+            style="--logo-zoom: 1.08;"
+          />
+        </summary>
+        <div class="experience-bubble">
+          <h3>AME Clothes Care & Finishings Co-Op</h3>
+          <span class="experience-dates">GE Appliances, a Haier Company | May-Aug 2026</span>
+          <div class="experience-skills" aria-label="Skills used">
+            <span>Process Optimization</span>
+            <span>Root-Cause Analysis</span>
+            <span>Manufacturing Operations</span>
+          </div>
+          <details class="read-more">
+            <summary>Read more</summary>
+            <p>
+             Applying a background in chemistry to investigate contamination and 
+             process issues that had gone unresolved, performing root cause 
+             analysis to identify the underlying cause rather than addressing 
+             the symptoms. Collaborating cross-functionally with 
+             designers and engineers to assess design changes and improve process 
+             reliability, bringing persistence and scientific thinking to problems 
+             that required more than a straightforward fix.
+            </p>
+          </details>
+        </div>
+      </details>
+    </div>
+  </section>
+  
+  <section class="section" id="skills">
+    <div class="section-header">
+      <h2>Skills</h2>
+      <p>
+        A larger view of the engineering strengths, technical tools, and
+        developing capabilities that support my project and internship work.
+      </p>
+    </div>
+
+    <div class="skills-grid" aria-label="Professional skills">
+       <article class="skill-card">
+        <h3>Related Courses</h3>
+        <p>
+          Chemical engineering courses that have provided relevant technical 
+          knowledge applied in my projects and internships.
+        </p>
+        <div class="skill-list">
+          <span>Thermodynamics I, II</span>
+          <span>Strategy of Design</span>
+          <span>Plant Process and Product Design</span>
+          <span>Fluid Dynamics</span>
+          <span>Heat & Mass Transfer</span>
+          <span>Materials Science</span>
+        </div>
+      </article>
+
+      <article class="skill-card">
+        <h3>Focus</h3>
+        <p>
+          Core engineering strengths I bring into design, manufacturing,
+          troubleshooting, and project execution.
+        </p>
+        <div class="skill-list">
+          <span>Systems Thinking</span>
+          <span>Prototyping</span>
+          <span>Root-Cause Analysis</span>
+          <span>Product Design</span>
+          <span>Manufacturing Operations</span>
+          <span>Technical Documentation</span>
+        </div>
+      </article>
+
+      <article class="skill-card">
+        <h3>Tools</h3>
+        <p>
+          Software, fabrication methods, and workplace tools I have applied in
+          hands-on engineering environments.
+        </p>
+        <div class="skill-list">
+          <span>SolidWorks</span>
+          <span>AutoCAD</span>
+          <span>3D Printing</span>
+          <span>Laser Cutting</span>
+          <span>Microsoft Office</span>
+          <span>Excel</span>
+        </div>
+      </article>
+
+      <article class="skill-card">
+        <h3>Tools In Progress</h3>
+        <p>
+          Technical areas I am actively building as I continue expanding my
+          engineering toolkit.
+        </p>
+        <div class="skill-list">
+          <span>CFD</span>
+          <span>FEA</span>
+          <span>ANSYS</span>
+          <span>Generative AI</span>
+          <span>Visual Studio Code</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="contact-me">
+    <div class="section-header">
+      <h2>Contact Me</h2>
+      <p>
+        Quick links to contact me! For the emails, click the box and wait 3 seconds.
+      </p>
+    </div>
+
+    <div class="contact-layout">
+      <div class="headshot-box" aria-label="Headshot">
+        <!-- Replace this placeholder with:
+        <img src="your-headshot.jpg" alt="Headshot of Jenn Ferguson" />
+        -->
+        <img src="headshot.jpg" alt="Headshot of Jenn Ferguson" />
+      </div>
+
+      <div class="contact-links" aria-label="Contact links">
+        <a class="contact-link" href="https://www.linkedin.com/in/jenn-ferguson-18a3b7300/" target="_blank" rel="noopener">
+          <strong>LinkedIn</strong>
+          <span>https://www.linkedin.com/in/jenn-ferguson-18a3b7300/</span>
+        </a>
+
+        <a class="contact-link" href="mailto:jmferg11@louisville.edu">
+          <strong>School Email</strong>
+          <span>jmferg11@louisville.edu</span>
+        </a>
+
+        <a class="contact-link" href="mailto:jenferg13@gmail.com">
+          <strong>Personal Email</strong>
+          <span>jenferg13@gmail.com</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll(".see-more-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const description = button.closest(".project-description");
+        const extra = description.querySelector(".description-extra");
+        const isExpanded = button.getAttribute("aria-expanded") === "true";
+
+        extra.hidden = isExpanded;
+        button.setAttribute("aria-expanded", String(!isExpanded));
+        button.textContent = isExpanded ? "See more" : "See less";
+      });
+    });
+
+    document.querySelectorAll(".gallery-section").forEach((section) => {
+      const title = section.querySelector("h4");
+      const items = section.querySelector(".gallery-items");
+      if (!title || !items) return;
+
+      const heading = document.createElement("div");
+      heading.className = "gallery-section-head";
+      title.before(heading);
+      heading.appendChild(title);
+
+      const controls = document.createElement("div");
+      controls.className = "gallery-scroll-controls";
+      controls.innerHTML = `
+        <button class="gallery-scroll-button" type="button" aria-label="Previous gallery images">&#8249;</button>
+        <button class="gallery-scroll-button" type="button" aria-label="Next gallery images">&#8250;</button>
+      `;
+      heading.appendChild(controls);
+
+      const [previousButton, nextButton] = controls.querySelectorAll("button");
+      previousButton.addEventListener("click", () => {
+        items.scrollBy({ left: -items.clientWidth, behavior: "smooth" });
+      });
+      nextButton.addEventListener("click", () => {
+        items.scrollBy({ left: items.clientWidth, behavior: "smooth" });
+      });
+    });
+
+    document.querySelectorAll("[data-gallery-target]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const modal = document.getElementById(button.dataset.galleryTarget);
+        if (!modal) return;
+        modal.classList.add("is-open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        modal.querySelector(".gallery-close").focus();
+      });
+    });
+
+    function closeGallery(modal) {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    document.querySelectorAll(".gallery-modal").forEach((modal) => {
+      modal.querySelector(".gallery-close").addEventListener("click", () => {
+        closeGallery(modal);
+      });
+
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          closeGallery(modal);
+        }
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      document.querySelectorAll(".gallery-modal.is-open").forEach(closeGallery);
+    });
+
+    document.querySelectorAll(".project-carousel").forEach((carousel) => {
+      const image = carousel.querySelector("img");
+      const counter = carousel.querySelector(".carousel-counter");
+      const images = image.dataset.images.split("|");
+      const alts = image.dataset.alts.split("|");
+      let currentIndex = 0;
+
+      function showSlide(index) {
+        currentIndex = (index + images.length) % images.length;
+        image.src = images[currentIndex];
+        image.alt = alts[currentIndex] || "";
+        counter.textContent = `${currentIndex + 1} / ${images.length}`;
+      }
+
+      carousel.querySelector(".prev").addEventListener("click", () => {
+        showSlide(currentIndex - 1);
+      });
+
+      carousel.querySelector(".next").addEventListener("click", () => {
+        showSlide(currentIndex + 1);
+      });
+    });
+
+    const introPhoto = document.querySelector("#intro-photo");
+    const aboutSection = document.querySelector("#about-me");
+
+    function updateIntroPhotoPan() {
+      if (!introPhoto || !aboutSection) {
+        return;
+      }
+
+      const sectionTop = aboutSection.offsetTop;
+      const panDistance = Math.max(aboutSection.scrollHeight, window.innerHeight * 0.9);
+      const progress = Math.min(Math.max((window.scrollY - sectionTop) / panDistance, 0), 1);
+
+      introPhoto.style.setProperty("--photo-x", `${progress * 100}%`);
+    }
+
+    window.addEventListener("scroll", updateIntroPhotoPan, { passive: true });
+    window.addEventListener("resize", updateIntroPhotoPan);
+    updateIntroPhotoPan();
+  </script>
+</body>
+</html>
